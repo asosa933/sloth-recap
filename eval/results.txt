@@ -1,0 +1,40 @@
+
+[flat / gemma] two lines:
+  • (8 msgs, band · list · total) Sara: Budget 10€ each for food and drinks, I'll make a list
+  • (7 msgs, technician · door · home) Sara: Technician comes Wednesday between 9 and 12, someone must be home to open the door
+
+[flat / tfidf] two lines:
+  • (9 msgs, balcony · kitchen · thursday) Marco: Reminder: kitchen Wednesday night, balcony Giulia, inspection Thursday 6pm
+  • (6 msgs, technician · door · home) Tom: Alessio works from home on Wednesdays right? @Alessio can you open the door for the technician?
+
+[calcetto / gemma] two lines:
+  • (5 msgs, satispay · luca · mercoledì) Luca: Sì, Satispay a me entro mercoledì, così prenoto il campo
+  • (6 msgs, campo · giovedì) Luca: Ci hanno proposto giovedì alle 21:30 sul campo 2, quello coperto
+
+[calcetto / tfidf] two lines:
+  • (6 msgs, entro · satispay · luca) Luca: Sì, Satispay a me entro mercoledì, così prenoto il campo
+  • (5 msgs, giovedì · campo) Fede: Per me va bene alle 21:30
+
+[erasmus / gemma] two lines:
+  • (4 msgs, ticket · andata · biglietto) Paolo: Io vengo! Il biglietto costa 19 euro andata e ritorno
+  • (4 msgs, bin · day · full) Lena: And tomorrow morning is recycling day, plastic and paper
+
+[erasmus / tfidf] two lines:
+  • (4 msgs, ticket · andata · biglietto) Lena: Me too, I'll buy my ticket tomorrow
+  • (4 msgs, call · chiamo · detto) Paolo: Domani chiamo l'idraulico, ha detto che passa venerdì mattina
+
+=== Results (5 chats, catch-up window = messages after my last one) ===
+EmbeddingGemma:
+  nearest message is about the same topic: 67/88 (76%)
+  real topics covered by the top 3 lines:  14/15 (93%)
+  messages grouped under the right line:   72/81 (89%)
+  chit-chat picked as a top-3 line:        0
+  grouped right, per chat: flat 20/24, calcetto 15/17, study 14/14, famiglia 12/13, erasmus 11/13
+TF-IDF fallback:
+  nearest message is about the same topic: 64/88 (73%)
+  real topics covered by the top 3 lines:  14/15 (93%)
+  messages grouped under the right line:   64/78 (82%)
+  chit-chat picked as a top-3 line:        0
+  grouped right, per chat: flat 16/21, calcetto 14/17, study 13/14, famiglia 12/13, erasmus 9/13
+
+Embedding speed in Node (CPU, q8, native onnxruntime): 114 messages in 2.5 s
