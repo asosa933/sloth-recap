@@ -129,7 +129,9 @@ function render(r) {
       r.digest.other.map((k) => `<li><time>${hhmm(r.msgs[k].ts)}</time><strong>${esc(r.msgs[k].author)}:</strong> ${esc(trimText(r.msgs[k].text, 200))}</li>`).join('') + '</ul></details>' : '');
   $('engine').innerHTML = r.engine.ai
     ? `🧠 Topics found by <strong>EmbeddingGemma</strong> running locally on ${r.engine.device === 'webgpu' ? 'WebGPU' : `CPU (WASM, ${window.__sr.threads || 1} thread${(window.__sr.threads || 1) > 1 ? 's' : ''})`} · ${r.engine.fresh ? `${r.engine.fresh} messages read in ${(r.engine.ms / 1000).toFixed(1)} s` : 'messages already read before, reused'} · nothing was uploaded.`
-    : `🔤 Simple mode (keyword TF-IDF, no AI)${r.aiError ? ` because the local AI could not load: <em>${esc(trimText(r.aiError, 120))}</em>` : ''}. Turn on “Use local AI” for better topic grouping.`;
+    : r.aiError
+      ? `🔤 Simple mode (keyword TF-IDF, no AI) because the local AI could not load: <em>${esc(trimText(r.aiError, 120))}</em>. The recap still works; try again later for better topic grouping.`
+      : '🔤 Simple mode (keyword TF-IDF, no AI). Turn on “Use local AI” for better topic grouping.';
   $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
