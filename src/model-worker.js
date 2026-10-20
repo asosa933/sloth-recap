@@ -12,9 +12,9 @@ async function load() {
   if (extractor) return;
   const progress_callback = (p) => self.postMessage({ type: 'progress', p });
   try { if (self.navigator.gpu && await self.navigator.gpu.requestAdapter()) device = 'webgpu'; } catch { /* wasm */ }
-  // WebGPU: 4-bit weights (~175 MB). CPU/WASM: 8-bit weights (~310 MB). I measured the 8-bit
-  // model ~3x faster on CPU than the 4-bit "no_gather" export (the WASM backend has no fast
-  // kernel for the 4-bit gather op), so the bigger download is worth it.
+  // WebGPU: 4-bit weights (~175 MB). CPU/WASM: 8-bit weights (~310 MB). In my tests the 8-bit
+  // model was ~3x faster on CPU than the 4-bit "no_gather" export, so the bigger download is
+  // worth it. (The plain 4-bit export can't run on WASM: no GatherBlockQuantized kernel.)
   const wasmOpts = { device: 'wasm', dtype: 'q8', progress_callback };
   try {
     extractor = device === 'webgpu'
