@@ -1,0 +1,13 @@
+{
+  "name": "sloth-recap",
+  "version": "1.0.0",
+  "description": "Wake up to a 2-line recap of your group chat instead of 200 messages. Runs 100% in the browser with the open-weight EmbeddingGemma model.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Alessio Sosa",
+  "scripts": {
+    "test": "node --test tests/",
+    "eval": "node eval/eval-model.mjs",
+    "start": "npx serve ."
+  }
+}
