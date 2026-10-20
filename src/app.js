@@ -92,8 +92,8 @@ async function run() {
   }
   if (!vecs) { vecs = tfidfVectors(msgs.map((m) => m.text)); engine = { ai: false }; }
   hideProgress();
-  const digest = buildDigest(msgs, vecs, { center: engine.ai });
   const needs = needsYou(msgs, me);
+  const digest = buildDigest(msgs, vecs, { center: engine.ai, boost: new Set(needs.map((n) => n.i)) });
   const result = { all, msgs, w, me, digest, needs, engine, aiError, truncated, ms: Math.round(performance.now() - t0) };
   window.__sr.last = result;
   render(result);

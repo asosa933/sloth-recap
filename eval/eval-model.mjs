@@ -6,7 +6,7 @@ import { pipeline } from '@huggingface/transformers';
 import { SAMPLES, goldTopics, buildExport } from '../src/samples.js';
 import { STUDY, FAMIGLIA, ERASMUS } from './heldout.js';
 import { parseChat } from '../src/parse.js';
-import { isFiller, dot, tfidfVectors, centerVectors, catchUpWindow, buildDigest, twoLines } from '../src/digest.js';
+import { isFiller, dot, tfidfVectors, centerVectors, catchUpWindow, buildDigest, twoLines, needsYou } from '../src/digest.js';
 
 const MODEL = 'onnx-community/embeddinggemma-300m-ONNX';
 const PREFIX = 'task: sentence similarity | query: ';
@@ -30,7 +30,7 @@ for (const [name, src] of Object.entries(chats)) {
       use.forEach((j, c) => { if (c !== a) { const s = dot(V[a], V[c]); if (s > b) { b = s; bj = j; } } });
       T[kind].nn[1]++; T[kind].nn[0] += gold[bj] === gold[i]; });
     // (b,c) digest
-    const d = buildDigest(msgs, v, { center });
+    const d = buildDigest(msgs, v, { center, boost: new Set(needsYou(msgs, 'Alessio').map((x) => x.i)) }); // same as the app
     const top3 = d.topics.slice(0, 3);
     const covered = new Set(top3.map((t) => gold[t.key]).filter((g) => g !== 'chat'));
     T[kind].cover[0] += covered.size; T[kind].cover[1] += Math.min(3, realTopics.size);

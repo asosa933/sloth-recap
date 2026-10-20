@@ -114,6 +114,7 @@ export function topicKeywords(texts, members, k = 3) {
 export const DEFAULTS = { maxLines: 4, redundancy: 2, concrete: 0.35, recency: 0.15, minSim: 0.05, context: 0.3 };
 
 // Main entry. msgs = the new messages, vecs = one vector per message (EmbeddingGemma or TF-IDF).
+// opts.boost = Set of message ids (msg.i) that need me: topics containing one are shown first.
 // 1) importance = how much of the chat talks about the same thing ("topic mass")
 //    + a bonus for concrete facts (times, days, money) + a small bonus for recent messages
 // 2) pick key messages greedily, penalising messages too similar to ones already picked (MMR)
@@ -155,8 +156,9 @@ export function buildDigest(msgs, vecs, opts = {}) {
     return { key: use[k], keyMsg: msgs[use[k]], members: members.map((a) => use[a]),
       authors: [...new Set(members.map((a) => msgs[use[a]].author))],
       keywords: topicKeywords(texts, members), importance: imp[k],
-      facts: members.filter((a) => FACT.test(texts[a])).length };
-  }).map((t) => ({ ...t, score: t.members.length + t.facts })) // concrete stuff beats banter
+      facts: members.filter((a) => FACT.test(texts[a])).length,
+      needsMe: members.filter((a) => o.boost && o.boost.has(msgs[use[a]].i)).length };
+  }).map((t) => ({ ...t, score: t.members.length + t.facts + 3 * Math.min(1, t.needsMe) })) // facts and "asks me" beat banter
     .sort((x, y) => y.score - x.score || y.importance - x.importance);
   return { topics, other: other.map((a) => use[a]), fillers: msgs.length - n, used: n };
 }

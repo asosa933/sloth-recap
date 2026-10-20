@@ -21,7 +21,7 @@
 
 [erasmus / tfidf] two lines:
   • (4 msgs, ticket · andata · biglietto) Lena: Me too, I'll buy my ticket tomorrow
-  • (4 msgs, call · chiamo · detto) Paolo: Domani chiamo l'idraulico, ha detto che passa venerdì mattina
+  • (4 msgs, heating · day · freezing) Lena: And tomorrow morning is recycling day, plastic and paper
 
 === Results (5 chats, catch-up window = messages after my last one) ===
 EmbeddingGemma:
@@ -37,4 +37,4 @@ TF-IDF fallback:
   chit-chat picked as a top-3 line:        0
   grouped right, per chat: flat 16/21, calcetto 14/17, study 13/14, famiglia 12/13, erasmus 9/13
 
-Embedding speed in Node (CPU, q8, native onnxruntime): 114 messages in 2.5 s
+Embedding speed in Node (CPU, q8, native onnxruntime): 114 messages in 3.8 s
