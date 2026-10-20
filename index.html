@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sloth Recap: wake up to 2 lines, not 200 messages</title>
+<meta name="description" content="Paste or drop a WhatsApp group chat export and get a 2-line morning recap plus the messages that need you. Runs 100% in your browser with the open-weight EmbeddingGemma model.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦥</text></svg>">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="logo" aria-hidden="true">🦥</div>
+    <div>
+      <h1>Sloth Recap</h1>
+      <p class="tag">Wake up to <strong>2 lines</strong>, not 200 group-chat messages. <span class="nowrap">Nothing leaves your browser.</span></p>
+    </div>
+  </div>
+  <div id="aiStatus" class="ai-status off" aria-live="polite">Local AI: not loaded</div>
+</header>
+
+<main class="wrap">
+  <section class="card" id="inputCard">
+    <div class="samples"><span>Too lazy to export a chat? Try one:</span>
+      <button type="button" class="chip" data-sample="flat">🏠 Flat 3B (English)</button>
+      <button type="button" class="chip" data-sample="calcetto">⚽ Calcetto del giovedì (Italiano)</button>
+    </div>
+    <div id="drop" class="drop">
+      <label for="chat" class="lbl">Group chat export</label>
+      <textarea id="chat" rows="7" spellcheck="false" placeholder="Paste a chat here, or drop the WhatsApp “Export chat” file (.txt or .zip) on this box…"></textarea>
+      <div class="drop-row">
+        <label class="file-btn">📎 Open .txt / .zip<input type="file" id="file" accept=".txt,.zip,text/plain,application/zip" hidden></label>
+        <span class="muted small" id="fileInfo">WhatsApp → group → ⋮ / ⓘ → Export chat → Without media</span>
+      </div>
+    </div>
+    <div class="row">
+      <label class="lbl inline">Your name in the chat
+        <input id="me" list="authors" maxlength="40" placeholder="e.g. Alessio" autocomplete="off">
+        <datalist id="authors"></datalist>
+      </label>
+      <label class="lbl inline">Catch me up on
+        <select id="mode">
+          <option value="since-me">everything after my last message</option>
+          <option value="all">the whole chat</option>
+        </select>
+      </label>
+    </div>
+    <label class="check"><input type="checkbox" id="useAI" checked> Use local AI (EmbeddingGemma: one download of ~175–310 MB, then cached)</label>
+    <div class="actions">
+      <button id="goBtn" class="btn" type="button">🦥 Catch me up</button>
+      <button id="loadBtn" class="btn ghost" type="button">Preload AI model</button>
+    </div>
+    <div id="progress" class="progress" hidden><div id="bar"></div><span id="progressText"></span></div>
+    <p id="error" class="error" hidden></p>
+  </section>
+
+  <section id="result" class="card result" hidden aria-live="polite">
+    <div class="result-head">
+      <h2>☕ Your 2-line recap</h2>
+      <button id="copyBtn" class="btn small ghost" type="button">Copy recap</button>
+    </div>
+    <ol id="lines" class="lines"></ol>
+    <p id="stats" class="stats"></p>
+
+    <div id="needsWrap">
+      <h3>🙋 Needs you <span id="needsCount" class="count"></span></h3>
+      <ul id="needs" class="needs"></ul>
+    </div>
+
+    <h3>🧺 Topics <span class="muted small">(open one to see the messages behind it)</span></h3>
+    <div id="topics" class="topics"></div>
+    <p id="engine" class="engine"></p>
+  </section>
+
+  <section class="card how">
+    <h2>How lazy can you get?</h2>
+    <ol>
+      <li>Export the group chat (WhatsApp: <em>Export chat → Without media</em>) and drop the file here.</li>
+      <li>Type your name once (it's remembered on this device).</li>
+      <li>Read 2 lines. Answer only what's in <strong>Needs you</strong>. Go back to bed. 🦥</li>
+    </ol>
+    <p class="muted small">Sloth Recap only quotes real messages: it picks them, it never writes new text, so it can't invent plans that nobody made.</p>
+  </section>
+</main>
+<footer class="foot">Open source (MIT) · <a href="https://github.com/asosa933/sloth-recap" target="_blank" rel="noopener">Code on GitHub</a> · Local AI: <a href="https://ai.google.dev/gemma/docs/embeddinggemma" target="_blank" rel="noopener">EmbeddingGemma</a> via <a href="https://github.com/huggingface/transformers.js" target="_blank" rel="noopener">transformers.js</a> · Your chat is processed only in this tab.</footer>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>
