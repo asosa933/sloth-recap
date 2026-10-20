@@ -12,6 +12,8 @@ Everything runs **in your browser**. The open-weight model [EmbeddingGemma](http
 
 👉 **Live demo:** https://asosa933.github.io/sloth-recap/ (click a sample chat, then "Catch me up")
 
+![Sloth Recap demo: sample chat → 2-line recap](docs/demo.gif)
+
 ![Sloth Recap: 2-line recap, needs you, topics](docs/recap-card.png)
 
 Built for the DEV [Hacktoberfest Open-Source AI Challenge, Week 3: "Slow and Steady"](https://dev.to/challenges/hacktoberfest-week3-2026-10-19). The project was created during the Week 3 window (October 2026).
@@ -40,6 +42,8 @@ chat export ──► parser (WhatsApp Android/iPhone, EN/IT dates, multi-line, 
 - `src/model-worker.js`: EmbeddingGemma in a Web Worker. It uses WebGPU (4-bit, about 175 MB) when available and the CPU otherwise (8-bit, about 310 MB). The download happens once and the browser caches it.
 - `src/zip.js`: reads the `.txt` out of a WhatsApp "Export chat" zip with the browser's built-in `DecompressionStream`
 - `sw.js` + `src/coi.js`: a tiny service worker that turns on cross-origin isolation, so the model can use several CPU threads on GitHub Pages
+
+More screenshots: [Italian sample](docs/recap-calcetto.png) · [no-AI fallback](docs/fallback-flat.png) · [mobile](docs/mobile.png) · [home](docs/home.png)
 
 **Deterministic fallback:** if you untick "Use local AI", or the model can't load, the same pipeline runs on TF-IDF keyword vectors. It's a bit less accurate but instant and needs no download.
 
